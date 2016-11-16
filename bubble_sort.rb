@@ -1,18 +1,32 @@
-def bubble_sort(list)
-  pass = Proc.new do |l| 
-    for i in (0..l.length-2) do
-  	  if l[i] > l[i+1]
-        puts "#{l[i]} > #{l[i+1]}"
-    	  tmp = l[i]
-    	  l[i] = l[i+1]
-    	  l[i+1] = tmp
+def bubble_sort_by(list)
+  result = list
+  sorted = false
+  until sorted
+    sorted = true
+    for i in (0..result.length-2) do
+  	  if yield(result[i], result[i+1]) > 0
+    	  result[i], result[i+1] = result[i+1], result[i]
+        sorted = false
       end
     end
   end
-
-  result = list
-  pass.call(list)
   return result
 end
 
+def bubble_sort(list)
+  bubble_sort_by(list) do |left, right|
+    left-right
+  end
+end
+
+
+sorted_greetings =  bubble_sort_by(["hi","hello","hey"]) do |left,right|
+
+  left.length - right.length
+
+end
+
+puts sorted_greetings.inspect
+
 puts bubble_sort([4,3,78,2,0,2]).inspect
+
