@@ -10,10 +10,30 @@ module Enumerable
       yield(item)
     end
   end
-  
+
+  def my_select
+    result = []
+    self.my_each do |item|
+      if yield(item) == true
+        result = result.push(item)
+      end
+    end
+    return result
+  end
+
+  def my_all?
+    result = true
+    if block_given?
+      self.my_each {|i| result = false unless yield(i)}
+    else
+      self.my_each{|i| result = false unless i}
+    end
+    return result
+  end
+
 end
 
-ary = [4, 5, 6]
-ary.my_each do |num|
-  puts num*2
-end
+puts %w[ant bear cat].my_all? { |word| word.length >= 3 }
+puts %w[ant bear cat].my_all? { |word| word.length >= 4 }
+puts [nil, true, 99].my_all?
+puts [true, 99].my_all?
