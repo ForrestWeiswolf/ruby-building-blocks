@@ -18,6 +18,7 @@ module Enumerable
         result = result.push(item)
       end
     end
+    #Docs say "If no block is given, an Enumerator is returned instead", which I don't know how to implement
     return result
   end
 
@@ -47,11 +48,13 @@ module Enumerable
 
   def my_count(obj=nil)
     result = 0
+    #Putting conditionals outside the loops here is less DRY (two similar my_each blocks are needed), but should be more efficient since each condition only needs to be evaluated once.
+    #Should see if there's a way to structure it that has both advantages
     if !(obj == nil)
       self.my_each do |i|
         result +=1 if i == obj
       end
-    elsif block_given?
+    elsif block_given? #not sure how to handle the case where there's both an argument and a block
       self.my_each do |i|
         result +=1 if yield(i)
       end
@@ -61,9 +64,5 @@ module Enumerable
     return result
   end
 
-end
 
-ary = [1, 2, 4, 2]
-puts ary.my_count
-puts ary.my_count(2)
-puts ary.my_count{ |x| x%2==0 }
+end
