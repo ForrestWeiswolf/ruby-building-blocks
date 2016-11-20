@@ -1,7 +1,7 @@
 module Enumerable
   def my_each_with_index
-    for i in (0...self.length) do
-      yield(self[i], i)
+    for i in (0...self.size) do
+      yield(self.to_a[i], i)
     end
   end
 
@@ -66,3 +66,4 @@ module Enumerable
 
 
 end
+
