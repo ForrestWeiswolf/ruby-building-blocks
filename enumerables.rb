@@ -75,6 +75,16 @@ module Enumerable
     return result
   end
 
-end
+  def my_inject(initial=nil)
+    if initial
+      result = yield(initial, self.to_a[0])
+    else
+      result = self.to_a[0]
+    end
+    self.to_a.drop(1).my_each do |item|
+      result = yield(result, item)
+    end
+    return result
+  end
 
-puts (1..4).my_map { |i| i*i }
+end
