@@ -64,14 +64,18 @@ module Enumerable
     return result
   end
 
-  def my_map
+  def my_map(proc)
     result = []
     if block_given?
       self.my_each do |i|
         result.push yield(i)
       end
+    elsif proc
+      self.my_each do |i|
+        result.push proc.call(i)
+      end
     end
-    #Docs say "If no block is given, an Enumerator is returned instead", which I don't know how to implement
+      #Docs say "If no block is given, an Enumerator is returned instead", which I don't know how to implement
     return result
   end
 
@@ -88,3 +92,4 @@ module Enumerable
   end
 
 end
+
