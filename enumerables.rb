@@ -13,12 +13,15 @@ module Enumerable
 
   def my_select
     result = []
-    self.my_each do |item|
-      if yield(item) == true
-        result = result.push(item)
+    if block_given?
+      self.my_each do |item|
+        if yield(item) == true
+          result = result.push(item)
+        end
       end
+    else
+      return self.to_enum(:my_map)
     end
-    #Docs say "If no block is given, an Enumerator is returned instead", which I don't know how to implement
     return result
   end
 
@@ -46,10 +49,8 @@ module Enumerable
     !(self.my_any?)
   end
 
-  def my_count(obj=nil)
+  def my_count(obj = nil)
     result = 0
-    #Putting conditionals outside the loops here is less DRY (two similar my_each blocks are needed), but should be more efficient since each condition only needs to be evaluated once.
-    #Should see if there's a way to structure it that has both advantages
     if !(obj == nil)
       self.my_each do |i|
         result +=1 if i == obj
@@ -64,20 +65,17 @@ module Enumerable
     return result
   end
 
-  def my_map(proc)
+  def my_map(& proc)
     result = []
     if block_given?
       self.my_each do |i|
         result.push yield(i)
       end
-    elsif proc
-      self.my_each do |i|
-        result.push proc.call(i)
-      end
+    else
+      return self.to_enum(:my_map)
     end
-      #Docs say "If no block is given, an Enumerator is returned instead", which I don't know how to implement
     return result
-  end
+    end
 
   def my_inject(initial=nil)
     if initial
@@ -92,4 +90,3 @@ module Enumerable
   end
 
 end
-
