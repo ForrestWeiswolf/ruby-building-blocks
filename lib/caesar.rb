@@ -12,6 +12,3 @@ def encryptLetter(l, shift)
     return charCode.chr
   end
 end
-
-puts caesar("What a string!", 5)
-
