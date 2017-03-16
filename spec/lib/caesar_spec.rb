@@ -18,4 +18,10 @@ describe "#caesar" do
 	it "wraps around from the end of the alphabet when neccessary" do 
 		expect(caesar('z', 2)).to eql('b')
 	end
+
+	# context "when not passed two arguments" do
+	# 	it "raises an error" do
+	# 		expect(caesar()).to raise_error
+	# 	end
+	# end
 end
