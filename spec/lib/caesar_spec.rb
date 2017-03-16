@@ -19,9 +19,23 @@ describe "#caesar" do
 		expect(caesar('z', 2)).to eql('b')
 	end
 
-	# context "when not passed two arguments" do
-	# 	it "raises an error" do
-	# 		expect(caesar()).to raise_error
-	# 	end
-	# end
+	context "when passed too few arguments" do
+		it "raises an error" do
+			expect{ caesar()}.to raise_error()
+			expect{ caesar(1)}.to raise_error()
+		end
+	end
+
+	context "when passed too many arguments" do
+		it "raises an error" do
+			expect{ caesar("asd", 1, 1)}.to raise_error()
+		end
+	end
+
+	context "when arguments are the wrong type" do
+		it "raises an error" do
+			expect{ caesar(1, 2)}.to raise_error()
+			expect{ caesar('asd', true)}.to raise_error()
+		end
+	end
 end
