@@ -84,4 +84,55 @@ describe Enumerable do
 			end
 		end
 	end
+
+	describe ".my_any?" do
+		context "when called on an empty list" do 
+			it "returns false" do
+				expect([].my_any?{|i| true}).to eql(false)
+			end
+		end
+
+		context "when passed a block that only returns false" do
+			it "returns false" do
+				expect(an_enumerable.my_any?{|i| false}).to eql(false)
+			end
+		end
+		context "when passed a block that only returns true" do
+			it "returns true" do
+				expect(an_enumerable.my_any?{|i| true}).to eql(true)
+			end
+		end
+
+		context "when block is true for a member of self" do
+			it "returns true" do
+				expect(an_enumerable.my_any?{|i| i>5}).to eql(true)
+			end
+		end
+
+		context "when block is false for every member of self" do
+			it "returns false" do
+				expect(an_enumerable.my_any?{|i| i>100}).to eql(false)
+			end
+		end
+
+		context "when no block is given" do
+			context "when called by a list containing a truthy value" do
+				it "returns true" do
+					expect([1, 2, nil].my_any?).to eql(true)
+				end
+			end
+			context "when called by a list containing no truthy values" do
+				it "returns false" do
+					expect([false, nil, false].my_any?).to eql(false)
+				end
+			end
+		end
+
+		context "when not called by an enumerable" do
+			it "raises an error" do
+				expect { 1.my_any?{|i| true} }.to raise_error(NoMethodError)
+			end
+		end
+	end
+
 end
