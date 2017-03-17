@@ -97,6 +97,7 @@ describe Enumerable do
 				expect(an_enumerable.my_any?{|i| false}).to eql(false)
 			end
 		end
+
 		context "when passed a block that only returns true" do
 			it "returns true" do
 				expect(an_enumerable.my_any?{|i| true}).to eql(true)
@@ -135,4 +136,39 @@ describe Enumerable do
 		end
 	end
 
+	describe ".my_count" do
+		context "when called on an empty list" do 
+			it "returns 0" do
+				expect([].my_count{|i| true}).to eql(0)
+			end
+		end
+
+		context "when passed a block that only returns false" do
+			it "returns 0" do
+				expect(an_enumerable.my_count{|i| false}).to eql(0)
+			end
+		end
+		
+		context "when passed a block that only returns true" do
+			it "returns the size of self" do
+				expect(an_enumerable.my_count{|i| true}).to eql(an_enumerable.size)
+			end
+		end
+
+		it "counts the members of self for which the block is true" do
+			expect(an_enumerable.my_count{|i| i>3}).to eql(3)
+		end
+
+		context "when no block is given" do
+			it "counts the members of self that equal a passed argument" do
+				expect(an_enumerable.my_count(3)).to eql(2)
+			end
+		end
+
+		context "when not called by an enumerable" do
+			it "raises an error" do
+				expect { 1.my_count{|i| true} }.to raise_error(NoMethodError)
+			end
+		end
+	end
 end
