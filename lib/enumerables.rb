@@ -88,5 +88,4 @@ module Enumerable
     end
     return result
   end
-
 end
